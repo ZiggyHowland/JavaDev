@@ -1,0 +1,5 @@
+There are so many different paths to take in order to complete a mission like the one you gave us today. For every bit of code I write I see new perspectives and new ways of handling messages and general user control, but still; these are the basics.
+
+One question: I tried using the System.err.out within the code, but realized all error messages posted at the end of the output (and not in the logical order).
+
+One comment: I find the following shortcut very useful: Press Ctrl and click a method name lead you to the method code.
