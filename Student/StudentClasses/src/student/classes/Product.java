@@ -8,7 +8,7 @@ public class Product {
     private int unitsInStock;
     private int stockReorderThreshold;
 
-
+    // ANDY: No need for this constructor - you can do all this initialization on the field declarations on lines 5 - 9.
     public Product() {
         this.name = "Untitled";
         this.netPrice = 0.0;
@@ -42,6 +42,8 @@ public class Product {
         }
     }
 
+    // ANDY: Can simplify the logic in this function to the following:
+    // return this.netPrice > 0 ? this.netPrice * this.VAT_PERCENTAGE : 0; 
     public double getSalesTax() {
         double salesTax = 0;
         if (this.netPrice > 0) {
@@ -70,10 +72,12 @@ public class Product {
         }
     }
 
+    // ANDY: No need for parens.
     public boolean needToReorder() {
         return (this.unitsInStock < this.stockReorderThreshold);
     }
 
+    // ANDY: Generally don't implement so many getters/setters, only implement them if needed.
     /*
      * General
      */
