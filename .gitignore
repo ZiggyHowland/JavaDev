@@ -3,5 +3,5 @@
 
 # But not these files
 !.gitignore
-!\Student\StudentClasses\src\student\classes\Main.java
-!\Student\StudentClasses\src\student\classes\Product.java
+!/Student/StudentClasses/src/student/classes/Main.java
+!/Student/StudentClasses/src/student/classes/Product.java
