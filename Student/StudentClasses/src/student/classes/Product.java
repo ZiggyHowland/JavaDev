@@ -15,8 +15,13 @@ public class Product {
     /*
      GENERAL QUESTIONS:
      #1: I guess we have situations where we want static final variables to be public. Any good examples?
+     ANDY: Yes, see https://docs.oracle.com/javase/8/docs/api/java/awt/Color.html
+     
      #2: I made the above VAT_PERCENTAGE variable public just to test accessing it from main. Is this ok to do, or should this as well be kept a secret and access only through a method?
+     ANDY: It depends - in this case I think it makes sense to be public, client code might be interested.
+     
      #3: Static finals (like VAT_PERCENTAGE) must be added a value in the declaration, and not in the constructor. Right?
+     ANDY: Yes, because constructor is only called when an object is created, whereas statics are created as soon as the class is loaded into the JVM. Also see "static initialization blocks" in the PPT chapter.
      */
 
 
@@ -29,6 +34,7 @@ public class Product {
      Source: https://www.geeksforgeeks.org/instance-initialization-block-iib-java/
      An argument of using it is to make sure code is always run, irrespective of which constructor is run
      Source: https://www.quora.com/What-is-the-purpose-of-the-instance-block-in-java
+     ANDY: I would disagree. Constructors are mainstream, initialization blocks are esoteric.
      */
 
 
@@ -65,7 +71,7 @@ public class Product {
         }
     }
 
-
+    // ANDY: Nice.
     public double getSalesTax() {
         return this.netPrice > 0 ? this.netPrice * VAT_PERCENTAGE : 0;
     }
@@ -92,6 +98,7 @@ public class Product {
 
     // ANDY: No need for parens.
     // I know, but I think it makes it more readable and allready at first ( indicates it has something to be calculated before return... (good or bad thought)
+    // ANDY again. People reading this are competent Java developers. No need to spoon-feed them with parentheses.
     public boolean needToReorder() {
         return (this.unitsInStock < this.stockReorderThreshold);
     }
