@@ -1,20 +1,42 @@
 package student.classes;
 
 public class Product {
-    private final double VAT_PERCENTAGE = 0.25;
+    public static final double VAT_PERCENTAGE = 0.25; // Shared constant value for all product objects
+    private final int id;
     private String name;
-    private String description = "";
+    private String description;
     private double netPrice;
     private int unitsInStock;
-    private int stockReorderThreshold;
+    private boolean deprecated;
+    private final int stockReorderThreshold; // Constant value (after first init), not shared among product objects
+    private static int nextId = 1432; // Shared value accross objects/intances (not constant)
 
-    // ANDY: No need for this constructor - you can do all this initialization on the field declarations on lines 5 - 9.
-    public Product() {
-        this.name = "Untitled";
-        this.netPrice = 0.0;
-        this.unitsInStock = 0;
-        this.stockReorderThreshold = 0;
+
+    /*
+     GENERAL QUESTIONS:
+     #1: I guess we have situations where we want static final variables to be public. Any good examples?
+     #2: I made the above VAT_PERCENTAGE variable public just to test accessing it from main. Is this ok to do, or should this as well be kept a secret and access only through a method?
+     #3: Static finals (like VAT_PERCENTAGE) must be added a value in the declaration, and not in the constructor. Right?
+     */
+
+
+    {
+        this.id = nextId++;
+        this.deprecated = false;
     }
+    /*
+     Seems like best practice for Instance Initialization Blocks (IIBs) are initializing instance variables, and to keep constructors clean related
+     Source: https://www.geeksforgeeks.org/instance-initialization-block-iib-java/
+     An argument of using it is to make sure code is always run, irrespective of which constructor is run
+     Source: https://www.quora.com/What-is-the-purpose-of-the-instance-block-in-java
+     */
+
+
+    public Product(String name) {
+        // Used this to test the constructor chaining
+        this(name, 0.0, 0, 0);
+    }
+
 
     public Product(String name, double netPrice, int unitsInStock, int stockReorderThreshold) {
         this.name = name;
@@ -22,6 +44,7 @@ public class Product {
         this.unitsInStock = unitsInStock;
         this.stockReorderThreshold = stockReorderThreshold;
     }
+
 
     public boolean isAvailable() {
         if (this.unitsInStock > 0) {
@@ -42,14 +65,9 @@ public class Product {
         }
     }
 
-    // ANDY: Can simplify the logic in this function to the following:
-    // return this.netPrice > 0 ? this.netPrice * this.VAT_PERCENTAGE : 0; 
+
     public double getSalesTax() {
-        double salesTax = 0;
-        if (this.netPrice > 0) {
-            salesTax = this.netPrice * this.VAT_PERCENTAGE;
-        }
-        return salesTax;
+        return this.netPrice > 0 ? this.netPrice * VAT_PERCENTAGE : 0;
     }
 
     public double getGrossPrice() {
@@ -73,38 +91,42 @@ public class Product {
     }
 
     // ANDY: No need for parens.
+    // I know, but I think it makes it more readable and allready at first ( indicates it has something to be calculated before return... (good or bad thought)
     public boolean needToReorder() {
         return (this.unitsInStock < this.stockReorderThreshold);
     }
 
-    // ANDY: Generally don't implement so many getters/setters, only implement them if needed.
+
+
     /*
      * General
      */
     @Override
     public String toString() {
-        return String.format("%s has a price of %.2f kr", this.name, this.getGrossPrice());
+        return String.format("PID %d: %s has a price of %.2f kr", this.id, this.name, this.getGrossPrice());
     }
+
+
 
 
     /*
      * Getters and setters
      */
 
-    public String getName() {
-        return name;
+    // Added using IntelliJ (Alt+Insert) just to verify your comment about "is" boolean getters
+    public boolean isDeprecated() {
+        return deprecated;
     }
-
-    public String getDescription() {
-        return description;
+    public void setDeprecated(boolean deprecated) {
+        this.deprecated = deprecated;
     }
 
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public double getNetPrice() {
-        return netPrice;
+    public String getName() {
+        return name;
     }
 
     public int getUnitsInStock() {
@@ -114,5 +136,4 @@ public class Product {
     public int getStockReorderThreshold() {
         return stockReorderThreshold;
     }
-
 }
